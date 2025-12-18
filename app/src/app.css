@@ -1,0 +1,110 @@
+:root {
+	--color-bg: #fdf6e3;
+	--color-text: #333333;
+	--color-accent-red: #a54242;
+	--color-accent-green: #427b58;
+	--color-overlay: rgba(0, 0, 0, 0.7);
+	
+	--font-serif: 'EB Garamond', serif;
+	--font-sans: 'Inter', sans-serif;
+	--font-mono: 'Fira Code', monospace;
+}
+
+body {
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	font-family: var(--font-sans);
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--font-serif);
+	font-weight: 700;
+	margin-bottom: 0.5em;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+a:hover {
+	color: var(--color-accent-red);
+}
+
+button {
+	cursor: pointer;
+	font-family: inherit;
+}
+
+/* Utility classes */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+.paper-card {
+	background: #fffbf0;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	border: 1px solid rgba(0,0,0,0.05);
+	padding: 2rem;
+	border-radius: 2px;
+}
+
+/* Custom Range Slider Styling */
+input[type=range] {
+	-webkit-appearance: none;
+	width: 100%;
+	background: transparent;
+	margin: 10px 0;
+}
+
+input[type=range]:focus {
+	outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 6px;
+	cursor: pointer;
+	background: #ddd;
+	border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+	height: 18px;
+	width: 18px;
+	border-radius: 50%;
+	background: var(--color-accent-green);
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -6px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+	box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+	background: #ccc;
+}
+
+input[type=range]::-moz-range-track {
+	width: 100%;
+	height: 6px;
+	cursor: pointer;
+	background: #ddd;
+	border-radius: 3px;
+}
+
+input[type=range]::-moz-range-thumb {
+	height: 18px;
+	width: 18px;
+	border: none;
+	border-radius: 50%;
+	background: var(--color-accent-green);
+	cursor: pointer;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
