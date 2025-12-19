@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
+	import { base } from '$app/paths';
 	import { uxExperimentState } from '$lib/stores';
 
 	let startTime = 0;
@@ -510,7 +511,7 @@
 					{/if}
 				</div>
 
-				<a href="/" class="home-btn">처음으로 돌아가기</a>
+				<a href="{base}/" class="home-btn">처음으로 돌아가기</a>
 			</div>
 		</div>
 	{/if}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
+	import { base } from '$app/paths';
 	import { typographySettings } from '$lib/stores';
 	import { SAMPLE_TEXTS, FONTS } from '$lib/constants';
 
@@ -50,7 +51,7 @@
 
 <div class="lab-container" in:fade>
 	<header>
-		<a href="/" class="back-link">← 돌아가기</a>
+		<a href="{base}/" class="back-link">← 돌아가기</a>
 		<h1 class="page-title">타이포그래피 실험실</h1>
 	</header>
 

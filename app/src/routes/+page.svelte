@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
+	import { base } from '$app/paths';
 </script>
 
 <svelte:head>
@@ -13,7 +14,12 @@
 		<div class="bottom-left">
 			<h1 class="project-title">Optimal CJK <br /> 서식 書式 연구</h1>
 			<div class="meta-links">
-				<a href="https://github.com" target="_blank" rel="noreferrer" class="icon-link">
+				<a
+					href="https://github.com/tjwhang/OptimalCJK"
+					target="_blank"
+					rel="noreferrer"
+					class="icon-link"
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="20"
@@ -30,7 +36,7 @@
 					>
 					<span>GitHub Repo</span>
 				</a>
-				<a href="/report.pdf" class="icon-link">
+				<a href="https://naver.com" class="icon-link">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="20"
@@ -57,15 +63,15 @@
 
 		<div class="bottom-right">
 			<nav>
-				<a href="/lab" class="nav-item">
+				<a href="{base}/lab" class="nav-item">
 					<span class="number">01</span>
 					<span class="text">타이포그래피 실험실</span>
 				</a>
-				<a href="/calc" class="nav-item">
+				<a href="{base}/calc" class="nav-item">
 					<span class="number">02</span>
 					<span class="text">통합 정보 밀도 계산기</span>
 				</a>
-				<a href="/ux" class="nav-item">
+				<a href="{base}/ux" class="nav-item">
 					<span class="number">03</span>
 					<span class="text">UX 체험</span>
 				</a>

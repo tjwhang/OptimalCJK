@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
+	import { base } from '$app/paths';
 
 	// Parameters
 	let H = 10.0; // Entropy
@@ -56,7 +57,7 @@
 
 <div class="calc-container" in:fade>
 	<header>
-		<a href="/" class="back-link">← 돌아가기</a>
+		<a href="{base}/" class="back-link">← 돌아가기</a>
 		<h1 class="page-title">통합 정보 밀도 계산기</h1>
 	</header>
 
