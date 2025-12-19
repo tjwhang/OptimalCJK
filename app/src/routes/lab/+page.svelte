@@ -50,8 +50,8 @@
 
 <div class="lab-container" in:fade>
 	<header>
-		<a href="/" class="back-link">← Back to Home</a>
-		<h1 class="page-title">Typography Lab</h1>
+		<a href="/" class="back-link">← 돌아가기</a>
+		<h1 class="page-title">타이포그래피 실험실</h1>
 	</header>
 
 	<main>
@@ -77,16 +77,16 @@
 
 		<aside class="controls-panel">
 			<div class="control-group">
-				<label for="language">Language</label>
+				<label for="language">언어</label>
 				<select id="language" bind:value={settings.language}>
 					{#each Object.keys(SAMPLE_TEXTS) as lang}
-						<option value={lang}>{lang}</option>
+						<option value={lang}>{SAMPLE_TEXTS[lang].label}</option>
 					{/each}
 				</select>
 			</div>
 
 			<div class="control-group">
-				<label for="font">Font Family</label>
+				<label for="font">글꼴</label>
 				<select id="font" bind:value={settings.fontFamily}>
 					{#each availableFonts as font}
 						<option value={font.value}>{font.name}</option>
@@ -96,7 +96,7 @@
 
 			<div class="control-group">
 				<div class="label-row">
-					<label for="weight">Weight</label>
+					<label for="weight">굵기</label>
 					<span class="value">{settings.fontWeight}</span>
 				</div>
 				<input
@@ -111,7 +111,7 @@
 
 			<div class="control-group">
 				<div class="label-row">
-					<label for="spacing">Letter Spacing</label>
+					<label for="spacing">자간</label>
 					<span class="value">{settings.letterSpacing}em</span>
 				</div>
 				<input
@@ -126,7 +126,7 @@
 
 			<div class="control-group">
 				<div class="label-row">
-					<label for="leading">Line Height</label>
+					<label for="leading">행간</label>
 					<span class="value">{settings.lineHeight}</span>
 				</div>
 				<input
@@ -141,23 +141,28 @@
 
 			<div class="control-group">
 				<div class="label-row">
-					<label for="size">Font Size</label>
+					<label for="size">크기</label>
 					<span class="value">{settings.fontSize}px</span>
 				</div>
 				<input type="range" id="size" min="12" max="32" step="1" bind:value={settings.fontSize} />
 			</div>
 
-			<button class="preset-btn" on:click={applyPreset}> Apply Optimization Preset </button>
+			<button class="preset-btn" on:click={applyPreset}> 최적 사전 설정값 적용 </button>
 		</aside>
 	</main>
 </div>
 
 <style>
+	:global(body) {
+		overflow: hidden;
+	}
+
 	.lab-container {
-		min-height: 100vh;
+		height: 100vh;
 		display: flex;
 		flex-direction: column;
 		padding: 1rem;
+		overflow: hidden;
 	}
 
 	header {
@@ -166,6 +171,7 @@
 		justify-content: space-between;
 		padding: 1rem 2rem;
 		margin-bottom: 1rem;
+		flex-shrink: 0;
 	}
 
 	.back-link {
@@ -186,6 +192,7 @@
 		margin: 0 auto;
 		width: 100%;
 		flex: 1;
+		overflow: hidden;
 	}
 
 	.paper-wrapper {
@@ -194,7 +201,9 @@
 		padding: 2rem;
 		background: rgba(0, 0, 0, 0.05);
 		border-radius: 8px;
-		min-height: 80vh;
+		height: 100%;
+		overflow-y: auto;
+		align-items: flex-start;
 	}
 
 	.content-area {
@@ -203,6 +212,9 @@
 		min-height: 600px;
 		position: relative;
 		transition: all 0.3s ease;
+		background: white; /* Ensure it looks like paper */
+		padding: 3rem; /* Add padding inside the paper */
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Add shadow */
 	}
 
 	.content-area h1 {
@@ -236,10 +248,9 @@
 		padding: 1.5rem;
 		border-radius: 8px;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-		height: fit-content;
+		height: 100%;
 		font-family: 'EB Garamond', 'Source Han Serif SC', serif;
-		position: sticky;
-		top: 2rem;
+		overflow-y: auto;
 	}
 
 	.control-group {

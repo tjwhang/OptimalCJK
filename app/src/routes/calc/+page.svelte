@@ -5,7 +5,7 @@
 	let H = 10.0; // Entropy
 	let s = 7.0; // Visual Strokes
 	let a = 1.0; // Area
-	let l = 4.0; // Language Factor
+	let l = 4.0; // Length
 
 	let isFullWidth = true; // w: 1.0 or 0.5
 
@@ -59,17 +59,17 @@
 
 <div class="calc-container" in:fade>
 	<header>
-		<a href="/" class="back-link">← Back to Home</a>
-		<h1 class="page-title">Density Calculator</h1>
+		<a href="/" class="back-link">← 돌아가기</a>
+		<h1 class="page-title">통합 정보 밀도 계산기</h1>
 	</header>
 
 	<main>
 		<div class="calculator-card paper-card">
-			<h2>Optimal CJK Spacing Model</h2>
+			<h2>최적 여백 조정</h2>
 			<p class="description">
-				Calculate Expansion Ratio <em>R</em> based on Integrated Information Density <em>Ψ</em>.
-				<em>R = ln(Λ / 1.75)</em>, where <em>Λ = (H · s) / (a · l)</em>. Target Area
-				<em>A = 0.75 · R</em>. Equation: <em>A = (w + k) · h</em>.
+				비율은 영어 알파벳을 1로 하며, 산출식은 다음과 같습니다.
+				<em>R = ln(Λ / 1.75)</em>, where <em>Λ = (H · s) / (a · l)</em>.
+				<em>A = 0.75 · R</em>. s. t. <em>A = (w + k) · h</em>.
 			</p>
 
 			<div class="visualization">
@@ -78,20 +78,23 @@
 					style:line-height={lineHeight}
 					style:letter-spacing="{letterSpacing}em"
 				>
-					존재는 흔적으로 남는다. <br />
-					国境の長いトンネルを抜けると雪国であった。<br />
-					學而不思則罔，思而不學則殆。
+					오늘 밤에도 별이 바람에 스치운다.<br />
+					吾輩は猫である。名前はまだ無い。<br />
+					學而不思則罔，思而不學則殆。<br />
+					All that glitters is not gold. <br />
+					Wir müssen wissen. Wir werden wissen. <br />
+					Жить тяжело и неуютно, зато уютно умирать
 				</div>
 			</div>
 
 			<div class="controls-grid">
 				<!-- Parameters Section -->
 				<div class="section parameters">
-					<h3>Parameters</h3>
+					<h3>매개변수</h3>
 
 					<div class="control-group">
 						<div class="label-row">
-							<label for="entropy">Entropy (<em>H</em>)</label>
+							<label for="entropy">정보 엔트로피 (<em>H</em>)</label>
 							<span class="value">{H}</span>
 						</div>
 						<input type="range" id="entropy" min="1" max="15" step="0.1" bind:value={H} />
@@ -99,7 +102,7 @@
 
 					<div class="control-group">
 						<div class="label-row">
-							<label for="strokes">Strokes (<em>s</em>)</label>
+							<label for="strokes">글자 당 획수 (<em>s</em>)</label>
 							<span class="value">{s}</span>
 						</div>
 						<input type="range" id="strokes" min="1" max="20" step="0.1" bind:value={s} />
@@ -107,7 +110,7 @@
 
 					<div class="control-group">
 						<div class="label-row">
-							<label for="area">Area (<em>a</em>)</label>
+							<label for="area">글자 당 점유 공간 (<em>a</em>)</label>
 							<span class="value">{a}</span>
 						</div>
 						<input type="range" id="area" min="0.5" max="2" step="0.1" bind:value={a} />
@@ -115,54 +118,54 @@
 
 					<div class="control-group">
 						<div class="label-row">
-							<label for="lang">Lang Factor (<em>l</em>)</label>
+							<label for="lang">평균 단어 길이 (<em>l</em>)</label>
 							<span class="value">{l}</span>
 						</div>
-						<input type="range" id="lang" min="0.5" max="2" step="0.1" bind:value={l} />
+						<input type="range" id="lang" min="1" max="10" step="0.1" bind:value={l} />
 					</div>
 
 					<div class="control-group toggle-group">
-						<label>Width (<em>w</em>)</label>
+						<label>폭 (<em>w</em>)</label>
 						<button
 							class="toggle-btn"
 							class:active={isFullWidth}
 							on:click={() => (isFullWidth = true)}
 						>
-							Full (1.0)
+							전각(全角) (1.0)
 						</button>
 						<button
 							class="toggle-btn"
 							class:active={!isFullWidth}
 							on:click={() => (isFullWidth = false)}
 						>
-							Half (0.5)
+							반각(半角) (0.5)
 						</button>
 					</div>
 				</div>
 
 				<!-- Results & Sliders Section -->
 				<div class="section results">
-					<h3>Calculated Metrics</h3>
+					<h3>도출 수치</h3>
 					<div class="metrics-display">
 						<div class="metric-box">
-							<span class="label">Lambda <em>Λ</em></span>
+							<span class="label">정보 부하량 <em>Λ</em></span>
 							<span class="val">{lambda.toFixed(2)}</span>
 						</div>
 						<div class="metric-box">
-							<span class="label">Ratio <em>R</em></span>
+							<span class="label">비율 <em>R</em></span>
 							<span class="val">{R.toFixed(2)}</span>
 						</div>
 						<div class="metric-box highlight">
-							<span class="label">Target Area <em>A</em></span>
+							<span class="label">총 점유 공간 <em>A</em></span>
 							<span class="val">{targetArea.toFixed(2)}</span>
 						</div>
 					</div>
 
-					<h3>Coupled Adjustments</h3>
+					<h3>여백 조정</h3>
 
 					<div class="control-group">
 						<div class="label-row">
-							<label for="lh">Line Height (<em>h</em>)</label>
+							<label for="lh">행간(行間) (<em>h</em>)</label>
 							<span class="value">{lineHeight.toFixed(3)}</span>
 						</div>
 						<input
@@ -178,7 +181,7 @@
 
 					<div class="control-group">
 						<div class="label-row">
-							<label for="ls">Letter Spacing (<em>k</em>)</label>
+							<label for="ls">자간(字間) (<em>k</em>)</label>
 							<span class="value">{letterSpacing.toFixed(3)}em</span>
 						</div>
 						<input
@@ -193,7 +196,7 @@
 					</div>
 
 					<button class="recommend-btn" on:click={applyRecommendation}>
-						Apply Recommended (Prioritize Leading)
+						최적 수치 적용 (행간 우선시)
 					</button>
 				</div>
 			</div>

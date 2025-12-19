@@ -8,18 +8,18 @@
 
 	// Task Data (Dynamic)
 	const RECIPIENTS = [
-		'Aaron Jones',
-		'Adam Smith',
-		'Alice Smith',
-		'Bob Brown',
-		'Charlie Day',
-		'David Evans',
-		'Frank Green',
-		'Grace Hill',
-		'Hannah Ice',
-		'Ian Jack',
-		'Jenny King',
-		'Kevin Lee'
+		'김두한',
+		'박문수',
+		'박제비',
+		'성춘향',
+		'심 영',
+		'아무개',
+		'연놀부',
+		'연흥부',
+		'이몽룡',
+		'이소룡',
+		'최 척',
+		'홍길동'
 	];
 
 	// Dynamic Task State
@@ -51,9 +51,15 @@
 	function generateTask() {
 		// Randomize Task
 		targetRecipient = RECIPIENTS[Math.floor(Math.random() * RECIPIENTS.length)];
-		// Amount between 10 and 150
-		const amt = Math.floor(Math.random() * (150 - 10 + 1)) + 10;
-		targetAmount = amt.toFixed(2);
+
+		if (targetRecipient === '김두한') {
+			targetAmount = '4.00';
+		} else {
+			// Amount between 10 and 150
+			const amt = Math.floor(Math.random() * (150 - 10 + 1)) + 10;
+			targetAmount = amt.toFixed(2);
+		}
+
 		// Random 4 digit password
 		targetPassword = Math.floor(1000 + Math.random() * 9000).toString();
 	}
@@ -160,8 +166,8 @@
 	}
 
 	function badUiFinalSubmit() {
-		if (badUiSecurityAnswer.toLowerCase() !== 'blue') {
-			alert('Security Check Failed. Hint: The sky is...');
+		if (badUiSecurityAnswer.toLowerCase() !== '0') {
+			alert('보안 확인에 실패했습니다. 힌트: sin π = ?');
 			return;
 		}
 		completePhase('bad-ui');
@@ -173,9 +179,11 @@
 
 	// --- Good UI Logic ---
 	let goodUiStep = 0; // 0: Password, 1: Recipient, 2: Amount, 3: Confirm
+	let goodUiError = '';
 
 	function goodUiNext() {
 		goodUiStep++;
+		goodUiError = '';
 	}
 
 	function goodUiSubmit() {
@@ -191,18 +199,39 @@
 	<!-- Background for the whole experiment -->
 	<div class="ux-background"></div>
 
+	{#if state.step === 'bad-ui' || state.step === 'good-ui'}
+		<div class="task-memo" in:fly={{ x: -50, duration: 500 }}>
+			<h3>할 일</h3>
+			<div class="memo-row">
+				<span>받을 사람:</span>
+				<strong>{targetRecipient}</strong>
+			</div>
+			<div class="memo-row">
+				<span>보낼 금액:</span>
+				<strong>${targetAmount}</strong>
+			</div>
+			<div class="memo-row">
+				<span>비밀번호:</span>
+				<strong>{targetPassword}</strong>
+			</div>
+		</div>
+	{/if}
+
 	{#if state.step === 'intro'}
 		<div class="modal-overlay" in:fade>
 			<div class="modal paper-card">
-				<h1>UX Research Experiment</h1>
-				<p>You will perform a simple money transfer task twice.</p>
+				<h1>UI/UX 체험 및 실험</h1>
+				<p>간단한 송금 UI를 이용하는 시나리오를 두 번 수행하게 될 것입니다.</p>
 				<p>
-					<strong>Task:</strong> Send <strong>${targetAmount || '...'}</strong> to
-					<strong>{targetRecipient || '...'}</strong>.
+					<strong>할 일:</strong> <strong>${targetAmount || '...'}</strong>을(를)
+					<strong>{targetRecipient || '...'}</strong> 님 에게 송금하세요.
 				</p>
-				<p><strong>Password:</strong> {targetPassword}</p>
-				<p class="warning">Please do not rush. Accuracy matters.</p>
-				<button class="start-btn" on:click={startExperiment}>Start Experiment</button>
+				<p><strong>결제 비밀번호:</strong> {targetPassword}</p>
+				<p class="warning">
+					이건 실험, 체험이지 스피드런이 아닙니다. 정확하게 누르는 것을 우선해 수행해 주세요.
+					극단적인 기록은 데이터 전처리 과정에서 걸러집니다.
+				</p>
+				<button class="start-btn" on:click={startExperiment}>시작하기!</button>
 			</div>
 		</div>
 	{/if}
@@ -216,18 +245,18 @@
 				tabindex="0"
 				on:keydown={() => {}}
 			>
-				<div class="status-bar">12:00 PM</div>
-				<div class="app-header">BankApp Legacy</div>
+				<div class="status-bar">오후 12:00</div>
+				<div class="app-header">구질구질 은행 모바일 앱</div>
 
 				{#if badUiStep === 0}
 					<div class="form-container" on:click|stopPropagation={() => {}}>
 						<div class="row">
-							<label>User Auth (Secure Keypad Only)</label>
+							<label>사용자 인증 (보안 키패드 전용)</label>
 							<div class="input-wrapper">
 								<input
 									type="password"
 									value={password}
-									placeholder="Tap to open keypad"
+									placeholder="여기를 눌러 키패드를 열기"
 									readonly
 									on:click={() => (showBadKeypad = !showBadKeypad)}
 								/>
@@ -243,9 +272,9 @@
 						</div>
 
 						<div class="row">
-							<label>Select Beneficiary</label>
+							<label>수금인 선택</label>
 							<select bind:value={selectedRecipient} size="3">
-								<option value="">-- Select --</option>
+								<option value="">-- 수금인을 선택하세요 --</option>
 								{#each RECIPIENTS as recipient}
 									<option value={recipient}>{recipient}</option>
 								{/each}
@@ -253,30 +282,33 @@
 						</div>
 
 						<div class="row">
-							<label>Transfer Amt (Format: 00.00)</label>
+							<label>송금 액수</label>
 							<input type="text" bind:value={amountInput} placeholder="0.00" />
 						</div>
 
 						<div class="row terms">
 							<input type="checkbox" id="terms" bind:checked={badUiTermsChecked} />
-							<label for="terms">I agree to the <a href="#">Terms</a></label>
+							<label for="terms"><a href="#">이용 약관</a>에 동의합니다.</label>
 						</div>
 
 						<div class="actions">
-							<button class="btn-cancel">Cancel</button>
-							<button class="btn-submit" on:click={badUiSubmit}>Next Step</button>
+							<button class="btn-cancel">취소</button>
+							<button class="btn-submit" on:click={badUiSubmit}>다음</button>
 						</div>
 
 						<div class="ads">
-							<small>Apply for a loan today! 5% APR.</small>
+							<small>지금 대출 받으세요! 이자 5% --- 파뿌리 저축은행</small>
+						</div>
+						<div class="ads">
+							<small>먹히는 디자인을 배우려면? 겉돌이 디자인 학원!</small>
 						</div>
 					</div>
 				{:else}
 					<div class="security-check" on:click|stopPropagation={() => {}}>
-						<h3>Security Verification</h3>
-						<p>What color is the sky?</p>
-						<input type="text" bind:value={badUiSecurityAnswer} placeholder="Answer..." />
-						<button class="btn-submit" on:click={badUiFinalSubmit}>Confirm Transaction</button>
+						<h3>보안 확인 질문</h3>
+						<p>파이를 쌓으면?</p>
+						<input type="text" bind:value={badUiSecurityAnswer} placeholder="답을 입력하세요..." />
+						<button class="btn-submit" on:click={badUiFinalSubmit}>송금 확인</button>
 					</div>
 				{/if}
 			</div>
@@ -298,20 +330,33 @@
 				<div class="good-content" on:click|stopPropagation={() => {}}>
 					{#if goodUiStep === 0}
 						<div class="step-container" in:fly={{ x: 20, duration: 300 }}>
-							<h2>Welcome Back</h2>
-							<p class="subtitle">Enter your PIN to continue</p>
+							<h2>안녕하세요!</h2>
+							<p class="subtitle">진행하려면 비밀번호를 입력하세요</p>
 							<div class="pin-display">
 								{#each Array(4) as _, i}
 									<div class="dot" class:filled={password.length > i}></div>
 								{/each}
 							</div>
+							{#if goodUiError}
+								<p class="error-msg" in:fade>{goodUiError}</p>
+							{/if}
 							<div class="numpad">
 								{#each goodKeypadNumbers as num}
 									{#if num !== undefined}
 										<button
 											on:click={() => {
 												if (password.length < 4) password += num;
-												if (password === targetPassword) setTimeout(goodUiNext, 200);
+												if (password.length === 4) {
+													if (password === targetPassword) {
+														setTimeout(goodUiNext, 200);
+													} else {
+														goodUiError = '틀린 비밀번호입니다.';
+														setTimeout(() => {
+															password = '';
+															goodUiError = '';
+														}, 1000);
+													}
+												}
 											}}>{num}</button
 										>
 									{/if}
@@ -322,15 +367,23 @@
 						</div>
 					{:else if goodUiStep === 1}
 						<div class="step-container" in:fly={{ x: 20, duration: 300 }}>
-							<h2>Send Money</h2>
-							<p class="subtitle">Who are you sending to?</p>
+							<h2>돈 보내기</h2>
+							<p class="subtitle">누구에게 보내시겠어요?</p>
+							{#if goodUiError}
+								<p class="error-msg" in:fade>{goodUiError}</p>
+							{/if}
 							<div class="recipient-list">
 								{#each RECIPIENTS as recipient, i}
 									<button
 										class="recipient-card"
 										on:click={() => {
-											selectedRecipient = recipient;
-											goodUiNext();
+											if (recipient === targetRecipient) {
+												selectedRecipient = recipient;
+												goodUiNext();
+											} else {
+												goodUiError = '얘한테 보내면 안됩니다.';
+												setTimeout(() => (goodUiError = ''), 1000);
+											}
 										}}
 									>
 										<div class="avatar">
@@ -349,12 +402,15 @@
 						</div>
 					{:else if goodUiStep === 2}
 						<div class="step-container" in:fly={{ x: 20, duration: 300 }}>
-							<h2>Amount</h2>
-							<p class="subtitle">How much to send?</p>
+							<h2>액수</h2>
+							<p class="subtitle">얼마나 보내시겠어요?</p>
 							<div class="amount-display">
 								<span class="currency">$</span>
 								<span class="value">{amountInput || '0'}</span>
 							</div>
+							{#if goodUiError}
+								<p class="error-msg" in:fade>{goodUiError}</p>
+							{/if}
 							<div class="numpad">
 								{#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as num}
 									<button
@@ -376,28 +432,34 @@
 								on:click={() => {
 									const val = parseFloat(amountInput);
 									const target = parseFloat(targetAmount);
-									if (!isNaN(val) && Math.abs(val - target) < 0.01) goodUiNext();
-								}}>Next</button
+									if (!isNaN(val) && Math.abs(val - target) < 0.01) {
+										goodUiNext();
+									} else {
+										goodUiError = '액수가 틀립니다.';
+										setTimeout(() => (goodUiError = ''), 1000);
+									}
+								}}>다음</button
 							>
 						</div>
 					{:else if goodUiStep === 3}
 						<div class="step-container" in:fly={{ x: 20, duration: 300 }}>
-							<h2>Confirm</h2>
+							<h2>송금 확인</h2>
 							<div class="summary-card">
 								<div class="row">
-									<span>To</span>
 									<strong>{selectedRecipient}</strong>
+									<span> 님 에게</span>
 								</div>
 								<div class="row">
-									<span>Amount</span>
+									<span>액수 확인: </span>
 									<strong>${amountInput}</strong>
+									<span>을(를) 보냅니다.</span>
 								</div>
 								<div class="row total">
-									<span>Total</span>
+									<span>총액</span>
 									<strong>${amountInput}</strong>
 								</div>
 							</div>
-							<button class="main-btn" on:click={goodUiSubmit}>Send Now</button>
+							<button class="main-btn" on:click={goodUiSubmit}>지금 보내기</button>
 						</div>
 					{/if}
 				</div>
@@ -409,8 +471,8 @@
 	{#if showSuccess}
 		<div class="modal-overlay" in:fade={{ duration: 200 }}>
 			<div class="modal paper-card" style="background: #e6ffe6; border-color: #427b58;">
-				<h2 style="color: #427b58;">Success!</h2>
-				<p>Transaction Completed.</p>
+				<h2 style="color: #427b58;">성공!</h2>
+				<p>송금을 완료했습니다.</p>
 			</div>
 		</div>
 	{/if}
@@ -418,35 +480,45 @@
 	{#if state.step === 'result'}
 		<div class="modal-overlay" in:fade>
 			<div class="modal paper-card">
-				<h1>Experiment Complete</h1>
+				<h1>체험 종료</h1>
 
 				<div class="results-grid">
 					<div class="result-col">
-						<h3>Interface A (Bad)</h3>
-						<p>Time: {(state.badUiMetrics.time / 1000).toFixed(2)}s</p>
-						<p>Misclicks: {state.badUiMetrics.misclicks}</p>
+						<h3>Interface A</h3>
+						<p>소요 시간: {(state.badUiMetrics.time / 1000).toFixed(2)}s</p>
+						<p>잘못 누른 횟수: {state.badUiMetrics.misclicks}</p>
 					</div>
 					<div class="result-col">
-						<h3>Interface B (Good)</h3>
-						<p>Time: {(state.goodUiMetrics.time / 1000).toFixed(2)}s</p>
-						<p>Misclicks: {state.goodUiMetrics.misclicks}</p>
+						<h3>Interface B</h3>
+						<p>소요 시간: {(state.goodUiMetrics.time / 1000).toFixed(2)}s</p>
+						<p>잘못 누른 횟수: {state.goodUiMetrics.misclicks}</p>
 					</div>
 				</div>
 
 				<div class="improvement">
 					{#if state.badUiMetrics.time > 0}
 						<p>
-							Efficiency Improvement: <strong
+							정확도 향상: <strong
 								>{Math.round(
 									((state.badUiMetrics.time - state.goodUiMetrics.time) / state.badUiMetrics.time) *
 										100
 								)}%</strong
 							>
+
+							<br />
+							사실 UI 디자인이 불공평한 것부터 반 정도 농담이었어요.
+							<br />
+							참여해 주셔서 감사합니다.
 						</p>
+					{/if}
+					{#if targetRecipient === '김두한'}
+						<h2 style="color: #ff9800; margin-top: 1rem; font-size: 2rem;">
+							오케이, 땡큐! 4 딸라!
+						</h2>
 					{/if}
 				</div>
 
-				<a href="/" class="home-btn">Back to Home</a>
+				<a href="/" class="home-btn">처음으로 돌아가기</a>
 			</div>
 		</div>
 	{/if}
@@ -658,10 +730,12 @@
 		padding: 2rem;
 		display: flex;
 		flex-direction: column;
+		min-height: 0; /* Ensure flex child can shrink */
 	}
 
 	.step-container {
-		height: 100%;
+		flex: 1;
+		min-height: 0; /* Ensure flex child can shrink */
 		display: flex;
 		flex-direction: column;
 	}
@@ -716,6 +790,13 @@
 
 	.numpad button:active {
 		background: #ddd;
+	}
+
+	.recipient-list {
+		flex: 1;
+		overflow-y: auto;
+		min-height: 0;
+		padding-right: 5px; /* Avoid scrollbar covering content */
 	}
 
 	.recipient-card {
@@ -816,5 +897,58 @@
 		background: #f5f5f5;
 		padding: 1rem;
 		border-radius: 8px;
+	}
+
+	.task-memo {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		width: 200px;
+		background: #fff9c4; /* Post-it yellow */
+		padding: 15px;
+		box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+		transform: rotate(2deg);
+		z-index: 50;
+		font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+		color: #333;
+	}
+
+	.task-memo h3 {
+		margin: 0 0 10px 0;
+		font-size: 1.1rem;
+		border-bottom: 1px dashed #999;
+		padding-bottom: 5px;
+	}
+
+	.memo-row {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 5px;
+		font-size: 0.9rem;
+	}
+
+	.error-msg {
+		color: #d32f2f;
+		text-align: center;
+		margin-bottom: 1rem;
+		font-weight: bold;
+		background: #ffebee;
+		padding: 0.5rem;
+		border-radius: 4px;
+	}
+
+	@media (max-width: 800px) {
+		.task-memo {
+			position: static;
+			width: 100%;
+			margin-bottom: 20px;
+			transform: none;
+		}
+
+		.ux-container {
+			flex-direction: column;
+			padding: 20px;
+			overflow-y: auto;
+		}
 	}
 </style>
