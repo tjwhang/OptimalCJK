@@ -6,7 +6,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	
 	console.log('UX Experiment Record:', data);
 	
-	// In a real app, save to DB here
+	// todo: save to DB here
 	
 	return json({ success: true });
 };

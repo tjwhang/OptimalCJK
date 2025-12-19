@@ -35,9 +35,6 @@
 		lineHeight = Math.max(1.0, Math.min(3.0, newH));
 	}
 
-	// When parameters change, R changes, so A changes.
-	// We need to decide which variable to keep constant or how to adjust.
-	// Let's keep Line Height constant and adjust Letter Spacing, unless impossible.
 	$: {
 		// Reactively update when targetArea changes
 		if (targetArea > 0) {

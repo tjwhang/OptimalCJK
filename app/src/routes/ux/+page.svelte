@@ -129,14 +129,6 @@
 		}
 	}
 
-	// --- Bad UI Logic ---
-	// Annoying features:
-	// 1. Password must be entered via a shuffled on-screen keypad (simulated by just blocking keyboard and showing a small keypad).
-	// 2. Recipient list is long and unsorted.
-	// 3. Amount must be exact "50.00".
-	// 4. Must check a tiny terms box.
-	// 5. "Security Question" popup before submit.
-
 	let showBadKeypad = false;
 
 	function badUiSubmit() {
