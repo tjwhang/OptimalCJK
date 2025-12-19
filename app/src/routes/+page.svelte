@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<title>Typography & UX Research</title>
+	<title>Optimal CJK 서식 書式 연구</title>
 </svelte:head>
 
 <div class="hero" in:fade={{ duration: 500 }}>

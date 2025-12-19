@@ -10,6 +10,9 @@
 	--font-mono: 'Fira Code', monospace;
 }
 
+/* Local Fonts are defined in app.html to handle base path correctly */
+
+
 body {
 	background-color: var(--color-bg);
 	color: var(--color-text);

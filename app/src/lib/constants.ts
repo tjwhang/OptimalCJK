@@ -50,8 +50,8 @@ export const FONTS = {
 		{ name: 'Inter', value: '"Inter", sans-serif' }
 	],
     CJK: [
-        { name: 'Source Han Serif (Noto)', value: '"Noto Serif JP", serif' },
-		{ name: 'Source Han Sans (Noto)', value: '"Noto Sans JP", sans-serif' },
-		{ name: 'LXGW WenKai', value: '"LXGW WenKai", serif' } // Note: LXGW might need external import if not in Google Fonts standard set easily, sticking to Noto for safety or assuming local.
+        { name: 'Source Han Serif', value: '"Source Han Serif", serif' },
+		{ name: 'Source Han Sans', value: '"Source Han Sans", sans-serif' },
+		{ name: 'LXGW WenKai', value: '"LXGW WenKai", serif' }
 	]
 };
