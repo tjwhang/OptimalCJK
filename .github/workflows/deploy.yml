@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: 'main'
+    branches: "main"
 
 permissions:
   contents: read
@@ -20,21 +20,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: app/package-lock.json # package-lock 위치 지정
+          cache: "npm"
+          cache-dependency-path: app/package-lock.json
 
       - name: Install dependencies
-        working-directory: ./app # app 폴더에서 실행
+        working-directory: ./app
         run: npm install
 
       - name: Build
-        working-directory: ./app # app 폴더에서 실행
+        working-directory: ./app
         run: npm run build
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'app/build/' # 빌드 결과물 위치 지정
+          path: "app/build/"
 
   deploy:
     needs: build_site
@@ -43,13 +43,14 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy
-        id# filepath: .github/workflows/deploy.yml
-name: Deploy to GitHub Pages Revised
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions// filepath: .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: 'main'
+    branches: "main"
 
 permissions:
   contents: read
@@ -67,21 +68,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: app/package-lock.json # package-lock 위치 지정
+          cache: "npm"
+          cache-dependency-path: app/package-lock.json
 
       - name: Install dependencies
-        working-directory: ./app # app 폴더에서 실행
+        working-directory: ./app
         run: npm install
 
       - name: Build
-        working-directory: ./app # app 폴더에서 실행
+        working-directory: ./app
         run: npm run build
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'app/build/' # 빌드 결과물 위치 지정
+          path: "app/build/"
 
   deploy:
     needs: build_site
@@ -90,4 +91,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions
