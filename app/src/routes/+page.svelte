@@ -36,7 +36,10 @@
 					>
 					<span>GitHub Repo</span>
 				</a>
-				<a href="https://naver.com" class="icon-link">
+				<a
+					href="https://github.com/tjwhang/OptimalCJK/blob/main/OptimalCJKReport.pdf"
+					class="icon-link"
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="20"
